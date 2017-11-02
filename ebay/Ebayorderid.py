@@ -57,6 +57,7 @@ def SubmitOrder(ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city
 		Buybutton=driver.find_element_by_id("binBtn_btn")
 		Buybutton.click()
 	except:
+		driver.close()
 		return
 	#Buybutton=driver.find_element_by_xpath("html/body/div[3]/div[3]/div[3]/div[2]/div[1]/div/div[3]/div[2]/div[3]/div/div[1]/a")
 	#Buybutton.click()
@@ -144,7 +145,7 @@ def SubmitOrder(ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city
 	time.sleep(5)
 	driver.switch_to_window(main_window)
 	updateOrderStatus(ebayitemid)
-	except Exception:
+	#except Exception:
 	driver.close()
 	pass
 	
