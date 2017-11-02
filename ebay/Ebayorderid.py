@@ -12,7 +12,7 @@ with open('setting.json') as setting_file:
 	processOrderUrl = settingsdata["ProcessOrderurl"]
 	cardno=settingsdata["cardno"]
 	Expd=settingsdata["Expd"]
-	cvv=settingsdata[“cvv”]
+	cvv=settingsdata["cvv"]
 	Uname=settingsdata["Uname"]
 	Pass=settingsdata["Pass"]
 	paypal_Un=settingsdata["paypal_Un"]
@@ -52,9 +52,12 @@ def SubmitOrder(ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city
 	url = processOrderUrl + str(ebayitemid)
 	driver.get(url)
 	main_window = driver.window_handles[0]
-	time.sleep(20)
-	Buybutton=driver.find_element_by_id("binBtn_btn")
-	Buybutton.click()
+	time.sleep(10)
+	try:
+		Buybutton=driver.find_element_by_id("binBtn_btn")
+		Buybutton.click()
+	except:
+		return
 	#Buybutton=driver.find_element_by_xpath("html/body/div[3]/div[3]/div[3]/div[2]/div[1]/div/div[3]/div[2]/div[3]/div/div[1]/a")
 	#Buybutton.click()
 	time.sleep(20)
