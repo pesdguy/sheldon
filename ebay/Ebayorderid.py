@@ -17,8 +17,20 @@ with open('setting.json') as setting_file:
 	Pass=settingsdata["Pass"]
 	paypal_Un=settingsdata["paypal_Un"]
 	paypal_pass=settingsdata["paypal_pass"]
-    
-    
+
+def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
+	client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
+	clientSession = client.service.login("test", "tester")
+	params['item_id'] = itemid  #required
+	params['order_id'] = order_id  # required
+	params['ebay_transaction_id'] = transactionid  # required
+	params['trackig_id'] = trackingid   # required
+	params['tracking_url'] = trackingurl  # opcional
+
+	result = client.service.call(clientSession, 'neworders.update', params)
+	print result
+
+
 def GetOrderInfo():
     client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
 
@@ -28,7 +40,7 @@ def GetOrderInfo():
     print result
     jsonData = json.loads(result)
     for order in jsonData:
-        Entity_id=order["entity_id"]
+		order_id=order["entity_id"]
         Itemid=order["itemid"]
         orderdate=order["orderdate"]
         Shipname=order["buyer_name"]
@@ -44,10 +56,10 @@ def GetOrderInfo():
         Country=order["country"]
         Zipcode=order["zipcode"]
         Ebay_Item_id=order["selectedebayitemid"]
-        SubmitOrder(Ebay_Item_id,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode)
+        SubmitOrder(order_id,Ebay_Item_id,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode)
 
 
-def SubmitOrder(ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode):
+def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode):
 	driver=webdriver.Firefox()
 	url = processOrderUrl + str(ebayitemid)
 	driver.get(url)
@@ -57,8 +69,9 @@ def SubmitOrder(ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city
 		Buybutton=driver.find_element_by_id("binBtn_btn")
 		Buybutton.click()
 	except:
-		#driver.close()
-		sys.exit()
+		updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
+		driver.close()
+		#sys.exit()
 		return
 	#Buybutton=driver.find_element_by_xpath("html/body/div[3]/div[3]/div[3]/div[2]/div[1]/div/div[3]/div[2]/div[3]/div/div[1]/a")
 	#Buybutton.click()
