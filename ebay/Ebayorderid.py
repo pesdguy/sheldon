@@ -21,11 +21,12 @@ with open('setting.json') as setting_file:
 def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
 	clientSession = client.service.login("test", "tester")
-	params['item_id'] = itemid  #required
-	params['order_id'] = order_id  # required
-	params['ebay_transaction_id'] = transactionid  # required
-	params['trackig_id'] = trackingid   # required
-	params['tracking_url'] = trackingurl  # opcional
+	params = {}
+	params['item_id'] = str(itemid)  #required
+	params['order_id'] = str(order_id) # required
+	params['ebay_transaction_id'] = str(transactionid) # required
+	params['trackig_id'] = str(trackingid)   # required
+	params['tracking_url'] = str(trackingurl)  # opcional
 
 	result = client.service.call(clientSession, 'neworders.update', params)
 	print result
