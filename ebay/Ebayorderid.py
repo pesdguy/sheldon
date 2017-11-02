@@ -40,7 +40,7 @@ def GetOrderInfo():
     print result
     jsonData = json.loads(result)
     for order in jsonData:
-		order_id=order["entity_id"]
+        order_id=order["entity_id"]
         Itemid=order["itemid"]
         orderdate=order["orderdate"]
         Shipname=order["buyer_name"]
