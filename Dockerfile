@@ -68,7 +68,7 @@ RUN git clone https://github.com/kanaka/noVNC.git /root/noVNC \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ebay /
 COPY geckodriver /
-#COPY password /
+COPY password /
 # Modify the launch script 'ps -p'
 RUN sed -i -- "s/ps -p/ps -o pid | grep/g" /root/noVNC/utils/launch.sh
 RUN chmod +x geckodriver
