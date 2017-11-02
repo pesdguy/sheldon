@@ -80,8 +80,8 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
 		Buybutton=driver.find_element_by_id("binBtn_btn")
 		Buybutton.click()
 	except:
-		updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
 		driver.close()
+		updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
 		#sys.exit()
 		return
 	#Buybutton=driver.find_element_by_xpath("html/body/div[3]/div[3]/div[3]/div[2]/div[1]/div/div[3]/div[2]/div[3]/div/div[1]/a")
