@@ -32,11 +32,11 @@ def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
 	clientSession = client.service.login("test", "tester")
 	params = {}
-	params['item_id'] = str(itemid)  #required
-	params['order_id'] = str(order_id) # required
-	params['ebay_transaction_id'] = str(transactionid) # required
-	params['trackig_id'] = str(trackingid)   # required
-	params['tracking_url'] = str(trackingurl)  # opcional
+	params['item_id'] = itemid.encode('utf-8')  #required
+	params['order_id'] = order_id.encode('utf-8') # required
+	params['ebay_transaction_id'] = transactionid.encode('utf-8') # required
+	params['trackig_id'] = trackingid.encode('utf-8')   # required
+	params['tracking_url'] = trackingurl.encode('utf-8')  # opcional
 	print params
 	result = client.service.call(clientSession, 'neworders.update', params)
 	print result
