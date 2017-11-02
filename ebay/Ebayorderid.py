@@ -18,15 +18,6 @@ with open('setting.json') as setting_file:
 	paypal_Un=settingsdata["paypal_Un"]
 	paypal_pass=settingsdata["paypal_pass"]
 
-def convert(data):
-    if isinstance(data, basestring):
-        return str(data)
-    elif isinstance(data, collections.Mapping):
-        return dict(map(convert, data.iteritems()))
-    elif isinstance(data, collections.Iterable):
-        return type(data)(map(convert, data))
-    else:
-        return data
 
 def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
@@ -38,7 +29,7 @@ def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	params['trackig_id'] = trackingid.encode('utf-8')   # required
 	params['tracking_url'] = trackingurl.encode('utf-8')  # opcional
 	print params
-	result = client.service.call(clientSession, 'neworders.update', params)
+	result = client.service.call(clientSession, 'neworders.update', str(params))
 	print result
 
 
