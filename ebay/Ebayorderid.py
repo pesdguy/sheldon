@@ -38,7 +38,7 @@ def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	params['trackig_id'] = str(trackingid)   # required
 	params['tracking_url'] = str(trackingurl)  # opcional
 	print params
-	result = client.service.call(clientSession, 'neworders.update', convert(params))
+	result = client.service.call(clientSession, 'neworders.update', params)
 	print result
 
 
