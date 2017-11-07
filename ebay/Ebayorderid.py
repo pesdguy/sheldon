@@ -106,10 +106,11 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
     print 'Entering Username'
     try:
         Username=driver.find_element_by_id("userid")
+        Username.send_keys(Uname)
     except:
         print 'Entering Username with '
         Username = driver.find_element_by_xpath("input[1]")
-    Username.send_keys(Uname)
+        Username.send_keys(Uname)
     try:
         Password=driver.find_element_by_id("pass")
     except:
