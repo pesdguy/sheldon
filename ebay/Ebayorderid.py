@@ -108,12 +108,12 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
         Username=driver.find_element_by_id("userid")
     except:
         print 'Entering Username with '
-        Username = driver.find_elements_by_class_name("fld")[0]
+        Username = driver.find_element_by_xpath("input[1]")
     Username.send_keys(Uname)
     try:
         Password=driver.find_element_by_id("pass")
     except:
-        Password = driver.find_elements_by_class_name("fld")[1]
+        Password = driver.find_element_by_xpath("input[2]")
     Password.send_keys(Pass)
     Signin=driver.find_element_by_id("sgnBt")
     Signin.click()
