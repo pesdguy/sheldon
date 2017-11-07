@@ -78,7 +78,10 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
     time.sleep(10)
     elementFound = False
     try:
-        Buybutton=driver.find_element_by_id("binBtn_btn")
+        try:
+            Buybutton=driver.find_element_by_id("binBtn_btn")
+        except:
+            Buybutton = driver.find_element_by_id("but_v4-31binLnk")
         Buybutton.click()
         elementFound = True;
     except Exception:
@@ -91,8 +94,10 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
         pass
     if elementFound == False:
         driver.close()
+        print "Issue in Order"
+        resultupdate = updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
+        print resultupdate
         return
-    #updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
     #sys.exit()
     time.sleep(10)
     Username=driver.find_element_by_id("userid")
