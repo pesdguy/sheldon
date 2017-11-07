@@ -66,11 +66,11 @@ def GetOrderInfo():
         Country=order["country"]
         Zipcode=order["zipcode"]
         Ebay_Item_id=order["selectedebayitemid"]
-        SubmitOrder(order_id,Ebay_Item_id,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode)
+        SubmitOrder(order_id,Ebay_Item_id,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Itemid)
 
 
 
-def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode):
+def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode,Itemid):
     driver=webdriver.Firefox()
     url = processOrderUrl + str(ebayitemid)
     driver.get(url)
@@ -95,7 +95,7 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
     if elementFound == False:
         driver.close()
         print "Issue in Order"
-        resultupdate = updateOrder(orderid, ebayitemid, '-', 'Issue in Item Page', url)
+        resultupdate = updateOrder(orderid, Itemid, '-', 'Issue in Item Page', url)
         print resultupdate
         return
     #sys.exit()
