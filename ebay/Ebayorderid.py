@@ -103,9 +103,15 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
         return
     #sys.exit()
     time.sleep(10)
-    Username=driver.find_element_by_id("userid")
+    try:
+        Username=driver.find_element_by_id("userid")
+    except:
+        Username = driver.find_element_by_xpath("[//input[@placeholder='Email or username']]")
     Username.send_keys(Uname)
-    Password=driver.find_element_by_id("pass")
+    try:
+        Password=driver.find_element_by_id("pass")
+    except:
+        Password = driver.find_element_by_xpath("[//input[@placeholder='Password']]")
     Password.send_keys(Pass)
     Signin=driver.find_element_by_id("sgnBt")
     Signin.click()
