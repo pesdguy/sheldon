@@ -38,7 +38,14 @@ def GetOrderInfo():
     client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
 
     clientSession = client.service.login("test", "tester")
-    resultFilter =  ""
+    fromto = {}
+    fromto['from'] = '2017-11-06 00:00:00'
+    fromto['to'] = '2017-11-08 00:00:00'
+    createdate = {}
+    createdate['created_at'] = fromto
+    datefilter = {}
+    datefilter['complex_filter'] = createdate
+    resultFilter =  datefilter
     result = client.service.call(clientSession, 'neworders.list', str(resultFilter))
     print result
     jsonData = json.loads(result)
