@@ -103,9 +103,11 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
         return
     #sys.exit()
     time.sleep(10)
+    print 'Entering Username'
     try:
         Username=driver.find_element_by_id("userid")
     except:
+        print 'Entering Username by xpath'
         Username = driver.find_element_by_xpath("html/body/div[4]/div/div/div/div[5]/div[1]/div[1]/div/div/div[1]/div[2]/div/span/form/div[1]/div[2]/div/div[4]/span[2]/input")
     Username.send_keys(Uname)
     try:
