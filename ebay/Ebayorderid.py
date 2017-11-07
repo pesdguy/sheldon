@@ -95,8 +95,11 @@ def SubmitOrder(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,Ship_addre
     if elementFound == False:
         driver.close()
         print "Issue in Order"
-        resultupdate = updateOrder(orderid, Itemid, '-', 'Issue in Item Page', url)
-        print resultupdate
+        try:
+            resultupdate = updateOrder(orderid, Itemid, '-', 'Issue in Item Page', url)
+            print resultupdate
+        except:
+            pass
         return
     #sys.exit()
     time.sleep(10)
