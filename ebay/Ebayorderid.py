@@ -6,7 +6,6 @@ from zeep import Client
 import json
 
 
-
 processOrderUrl = ''
 isProductionUrl = False
 with open('setting.json') as setting_file:
@@ -65,7 +64,6 @@ def GetOrderInfo():
         City=order["city"]
         Country=order["country"]
         Telephone=order["telephone"]
-        Country=order["country"]
         Zipcode=order["zipcode"]
         Ebay_Item_id=order["selectedebayitemid"]
         
@@ -149,8 +147,17 @@ def SubmitOrderProduction(orderid,ebayitemid,First_Name,Last_Name,Ship_address1,
     StreetAddress2=driver.find_element_by_id("af-address2")
     StreetAddress2.send_keys(Ship_address2)
     time.sleep(1)
-    City=driver.find_element_by_id("af-city")
-    City.send_keys(city)
+    try:
+        City=driver.find_element_by_id("af-city")
+        City.send_keys(city)
+    except Exception:
+        pass
+    time.sleep(1)
+    try:
+        City=Select(driver.find_element_by_id("af-city"))
+        City.select_by_visible_text(city)
+    except Exception:
+        pass
     time.sleep(3)
     try:
         State=driver.find_element_by_id("af-state")
@@ -254,6 +261,18 @@ def SubmitOrderSandbox(orderid,ebayitemid,Shipname,Ship_address1,Ship_address2,c
 	Signin=driver.find_element_by_id("sgnBt")
 	Signin.click()
 	time.sleep(20)
+	#try:
+		#Quantity=driver.find_element_by_id("quantity")
+		#Quantity.send_keys("1")
+	#except Exception:
+		#pass
+	#time.sleep(5)
+	try:
+		ContinueButton=driver.find_element_by_name("Continue")
+		ContinueButton.click()
+	except Exception:
+		pass
+	time.sleep(10)
 	Commitbutton=driver.find_element_by_id("but_v4-2")
 	Commitbutton.click()
 	time.sleep(20)
@@ -279,9 +298,18 @@ def SubmitOrderSandbox(orderid,ebayitemid,Shipname,Ship_address1,Ship_address2,c
 	StreetAddress2=driver.find_element_by_id("address2" )
 	StreetAddress2.send_keys(Ship_address2)
 	time.sleep(1)
-	City=driver.find_element_by_id("city")            
-	City.send_keys(city)
+	try:
+		City=driver.find_element_by_id("city")            
+		City.send_keys(city)
+	except Exception:
+		pass
 	time.sleep(1)
+	try:
+		City=Select(driver.find_element_by_id("city"))
+		City.select_by_visible_text(city)
+	except Exception:
+		pass
+	time.sleep(2)
 	try:
 		State=driver.find_element_by_id("state")
 		State.send_keys(state)
@@ -299,20 +327,20 @@ def SubmitOrderSandbox(orderid,ebayitemid,Shipname,Ship_address1,Ship_address2,c
 	time.sleep(1)
 	Phoneno=driver.find_element_by_id("dayphone1")     
 	Phoneno.send_keys(Telephone)
-	time.sleep(1)
+	time.sleep(10)
 	ShipaddressButton=driver.find_element_by_id("but_shiptobtn")
 	ShipaddressButton.click()
 	time.sleep(10)
 	driver.switch_to_default_content()
-	time.sleep(30)
+	time.sleep(20)
 	Paypal=driver.find_element_by_id("PAYPAL")
 	Paypal.click()
 	time.sleep(5)
 	ButtonToContinue=driver.find_element_by_id("but_ryp_continue")
 	ButtonToContinue.click()
-	time.sleep(30)
+	time.sleep(20)
 	driver.switch_to_frame(driver.find_element_by_name("injectedUl"))
-	time.sleep(30)
+	time.sleep(20)
 	Paypal_Username=driver.find_element_by_id("email")
 	Paypal_Username.send_keys(paypal_Un)
 	time.sleep(5)
