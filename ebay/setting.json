@@ -1,10 +1,11 @@
 {
 	"ProcessOrderurl": "http://cgi.sandbox.ebay.com/",
+    "isproduction":"False",
 	"cardno": "4242424242424242",
 	"Expd": "12/18",
 	"cvv": "123",
 	"Uname": "testuser_seerapu",
 	"Pass": "S03g55a020$",
-	"paypal_Un": "vidyashreemangalore@gmail.com",
-	"paypal_pass": "vidya@paypal"
+	"paypal_Un": "banerjeearka29-buyer-1@gmail.com",
+	"paypal_pass": "test1234"
 }
