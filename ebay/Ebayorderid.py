@@ -25,13 +25,14 @@ def updateOrder(order_id,itemid,transactionid,trackingid,trackingurl):
 	 client = Client('http://staging.esupplybox.com/api/soap/?wsdl')
 	 clientSession = client.service.login("test", "tester")
 	 params = {}
-	 params['item_id'] = itemid.encode('utf-8')  #required
-	 params['order_id'] = order_id.encode('utf-8') # required
-	 params['ebay_transaction_id'] = transactionid.encode('utf-8') # required
-	 params['trackig_id'] = trackingid.encode('utf-8')   # required
+	 params['item_id'] =(itemid).encode('utf-8')  #required
+	 params['order_id'] =(order_id).encode('utf-8') # required
+	 params['ebay_transaction_id'] =(transactionid).encode('utf-8') # required
+	 params['trackig_id'] =(trackingid).encode('utf-8')   # required
 	 params['tracking_url'] = trackingurl.encode('utf-8')  # opcional
-	 print params
-	 result = client.service.call(clientSession, 'neworders.update', str(params))
+	 jsonresult=json.dumps(params)
+	 print jsonresult
+	 result = client.service.call(clientSession, 'neworders.update',jsonresult)
 	 print result
 
 
@@ -40,8 +41,8 @@ def GetOrderInfo():
 
     clientSession = client.service.login("test", "tester")
     fromto = {}
-    fromto['from'] = '2017-11-07 00:00:00'
-    fromto['to'] = '2017-11-09 00:00:00'
+    fromto['from'] = '2017-11-09 00:00:00'
+    fromto['to'] = '2017-11-10 00:00:00'
     createdate = {}
     createdate['created_at'] = fromto
     datefilter = {}
@@ -239,6 +240,7 @@ def SubmitOrderSandbox(orderid,ebayitemid,Shipname,Ship_address1,Ship_address2,c
 		elementFound = True;
 	except Exception:
 		pass
+	time.sleep(5)
 	try:
 		Buybutton=driver.find_element_by_xpath("html/body/div[3]/div[3]/div[3]/div[2]/div[1]/div/div[2]/div[2]/div[1]/div/div/a")
 		Buybutton.click()
@@ -254,6 +256,7 @@ def SubmitOrderSandbox(orderid,ebayitemid,Shipname,Ship_address1,Ship_address2,c
 		except:
 			pass
 		return
+	time.sleep(10)
 	Username=driver.find_element_by_xpath("html/body/div[4]/div/div/div/div[5]/div[1]/div[1]/div/div/div[1]/div[2]/div/span/form/div[1]/div[2]/div/div[4]/span[2]/input")
 	Username.send_keys(Uname)
 	Password=driver.find_element_by_xpath("html/body/div[4]/div/div/div/div[5]/div[1]/div[1]/div/div/div[1]/div[2]/div/span/form/div[1]/div[2]/div/div[5]/span[2]/input")
