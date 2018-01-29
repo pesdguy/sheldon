@@ -1,0 +1,22 @@
+{
+	"production":
+	{
+		"cardno": "4242424242424242",
+		"Expd": "12/18",
+		"cvv": "123",
+		"Uname": "pinchasamof1",
+		"Pass": "Jon212nyc+",
+		"paypal_Un": "jonathansheldon973@gmail.com",
+		"paypal_pass": "Jon212nyc+"
+	},
+	"staging":
+	{
+		"cardno": "42425555554242",
+		"Expd": "12/18",
+		"cvv": "123",
+		"Uname": "Testuser_seerapu1",
+		"Pass": "S03g55a020$",
+		"paypal_Un": "banerjeearka29-buyer-1@gmail.com",
+		"paypal_pass": "test1234"
+	}
+}
