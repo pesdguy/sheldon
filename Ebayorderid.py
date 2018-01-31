@@ -54,36 +54,44 @@ def GetOrderInfo():
         Telephone=order["telephone"]
         quantity = order["qty"]
         Zipcode=order["zipcode"]
-        Purchasetype = order["purchase_type"]
-        Purchaseurl = order["purchase_url"]
+        Purchasetype =order["purchase_type"]
+        Purchaseurl =order["purchase_url"]
         Ebay_Item_id=order["selectedebayitemid"]
         Environment = order["environment"]
-        
+
         with open('setting.json') as setting_file:
             settingsdata = json.load(setting_file)
             settingsdata = settingsdata[Environment]
+            global cardno
             cardno=settingsdata["cardno"]
+            global Expd
             Expd=settingsdata["Expd"]
+            global cvv
             cvv=settingsdata["cvv"]
+            global Uname
             Uname=settingsdata["Uname"]
+            global Pass
             Pass=settingsdata["Pass"]
+            global paypal_Un
             paypal_Un=settingsdata["paypal_Un"]
+            global paypal_pass
             paypal_pass=settingsdata["paypal_pass"]
+
 
         if Environment == "production":
             if Purchasetype == "offer":
-                Placebid(Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode)
+                Placebid(Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Uname,Pass,paypal_Un,paypal_pass)
             elif Purchasetype == "straight":
-                SubmitOrderProduction(order_id,Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Itemid)
+                SubmitOrderProduction(order_id,Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Itemid,Uname,Pass,paypal_Un,paypal_pass)
         else:
-            SubmitOrderSandbox(order_id,Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Itemid) 
+            SubmitOrderSandbox(order_id,Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,City,State,Telephone,Country,Zipcode,Itemid,Uname,Pass,paypal_Un,paypal_pass) 
                 
             
       
-def SubmitOrderProduction(orderid,purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode,Itemid):
+def SubmitOrderProduction(orderid,Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode,Itemid,Uname,Pass,paypal_Un,paypal_pass):
     print "production ......."
     driver=webdriver.Firefox()
-    url = purchaseurl
+    url = Purchaseurl
     driver.get(url)
     default_wait= 20
     main_window = driver.window_handles[0]
@@ -195,7 +203,7 @@ def SubmitOrderProduction(orderid,purchaseurl,First_Name,Last_Name,Ship_address1
     time.sleep(1)
     Add=driver.find_element_by_xpath(".//*[@id='address-fields-ctr']/div[2]/div[3]/button")
     Add.click()
-    time.sleep(2)
+    time.sleep(10)
     noteButton = driver.find_element_by_class_name("slr-msg-link")
     noteButton.click()
     time.sleep(2)
@@ -234,30 +242,22 @@ def SubmitOrderProduction(orderid,purchaseurl,First_Name,Last_Name,Ship_address1
     rememberme=driver.find_element_by_id("declineRememberMe")
     rememberme.click()
     time.sleep(30)
-    Entercardnumb=driver.find_element_by_id("cc")
-    Entercardnumb.send_keys(cardno)
-    time.sleep(5)
-    Expirydate=driver.find_element_by_id("expiry_value")
-    Expirydate.send_keys(Expd)
-    time.sleep(5)
-    EnterCVV=driver.find_element_by_id("cvv")
-    EnterCVV.send_keys(cvv)
-    time.sleep(5)
-    proceed=driver.find_element_by_id("proceedButton")
-    proceed.click()
-    time.sleep(5)
     driver.switch_to_window(main_window)
-	#updateOrderStatus(ebayitemid)
-	#except Exception:
-	#driver.close()
-	#pass  
+    time.sleep(5)
+    ConfirmAndPay = driver.find_element_by_id("cta-btn")
+    ConfirmAndPay.click()
+    time.sleep(10)
+    SeeOrderdetails = driver.find_element_by_xpath(".//*[@id='success-order-summary']/div[1]/div[3]/a")
+    SeeOrderdetails.click()
+
+	
     
     
     
-def SubmitOrderSandbox(orderid,purchaseurl,Shipname,Ship_address1,Ship_address2,city,state,Telephone,Country,Zipcode,Itemid):
+def SubmitOrderSandbox(orderid,Purchaseurl,Shipname,Ship_address1,Ship_address2,city,state,Telephone,Country,Zipcode,Itemid,Uname,Pass,paypal_Un,paypal_pass):
 	print "staging ......."
 	driver=webdriver.Firefox()
-	url = purchaseurl
+	url = Purchaseurl
 	driver.get(url)
 	time.sleep(15)
 	elementFound = False
@@ -400,11 +400,12 @@ def SubmitOrderSandbox(orderid,purchaseurl,Shipname,Ship_address1,Ship_address2,
 	Completeorder=driver.find_element_by_id("but_succturbocontinue")
 	Completeorder.click()
     
-def Placebid(purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode):
+def Placebid(Purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,state,Telephone,country,Zipcode,Uname,Pass,paypal_Un,paypal_pass):
     driver=webdriver.Firefox()
     url = Purchaseurl
     driver.get(url)
-    time.sleep(5)
+    default_wait= 20
+    main_window = driver.window_handles[0]
     try:
         SignInButton = driver.find_element_by_xpath(".//*[@id='gh-ug']/a")
         SignInButton.click()
@@ -420,9 +421,21 @@ def Placebid(purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,s
     Signin=driver.find_element_by_id("sgnBt")
     Signin.click()
     time.sleep(5)
-    PayNow = driver.find_element_by_link_text("pay now")
-    PayNow.click()
-    time.sleep(15)
+    try:
+        PayNow = driver.find_element_by_link_text("pay now")
+        PayNow.click()
+    except Exception:
+        pass
+    time.sleep(5)
+    try:
+        purchaseHistory = driver.find_element_by_xpath(" .//*[@id='msgPanel']/div/div/span/span[1]/a")
+        purchaseHistory.click()
+    except Exception:
+        pass
+    time.sleep(10)
+    Paynowlink = driver.find_element_by_id("PayNow")
+    Paynowlink.click()
+    time.sleep(10)
     AddressChange=driver.find_element_by_xpath(".//*[@id='sa-change-link']/a")
     AddressChange.click()
     time.sleep(30)
@@ -474,7 +487,13 @@ def Placebid(purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,s
     time.sleep(1)
     Add=driver.find_element_by_xpath(".//*[@id='address-fields-ctr']/div[2]/div[3]/button")
     Add.click()
-    time.sleep(2)
+    time.sleep(3)
+    try:
+        ConfirmAdd=driver.find_element_by_id("recommended-addr-btn")
+        ConfirmAdd.click()
+    except Exception:
+        pass
+    time.sleep(5)
     noteButton = driver.find_element_by_class_name("slr-msg-link")
     noteButton.click()
     time.sleep(2)
@@ -482,10 +501,11 @@ def Placebid(purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,s
     Message.send_keys("Seller Make Blind Shipping")
     time.sleep(5)
     AddNote = driver.find_element_by_xpath(".//*[@id='seller-message-ctr']/div/div/div[3]/button")
-    AddNote.click()
+    AddNote.click() 
+    time.sleep(3)
     try:
-        ConfirmAdd=driver.find_element_by_id("recommended-addr-btn")
-        ConfirmAdd.click()
+        resultupdate = updateOrder(orderid, Itemid, '-', 'Issue in Item Page', url)
+        print resultupdate
     except Exception:
         pass
     time.sleep(20)
@@ -506,20 +526,15 @@ def Placebid(purchaseurl,First_Name,Last_Name,Ship_address1,Ship_address2,city,s
     time.sleep(30)
     rememberme=driver.find_element_by_id("declineRememberMe")
     rememberme.click()
-    time.sleep(30)
-    Entercardnumb=driver.find_element_by_id("cc")
-    Entercardnumb.send_keys(cardno)
-    time.sleep(5)
-    Expirydate=driver.find_element_by_id("expiry_value")
-    Expirydate.send_keys(Expd)
-    time.sleep(5)
-    EnterCVV=driver.find_element_by_id("cvv")
-    EnterCVV.send_keys(cvv)
-    time.sleep(5)
-    proceed=driver.find_element_by_id("proceedButton")
-    proceed.click()
-    time.sleep(5)
+    time.sleep(20)
     driver.switch_to_window(main_window)
+    time.sleep(5)
+    ConfirmAndPay = driver.find_element_by_id("cta-btn")
+    ConfirmAndPay.click()
+    time.sleep(10)
+    #SeeOrderdetails = driver.find_element_by_xpath(".//*[@id='success-order-summary']/div[1]/div[3]/a")
+    #SeeOrderdetails.click()
+
     
     
     
